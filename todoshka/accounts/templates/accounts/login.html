@@ -1,0 +1,11 @@
+{% extends 'doit/base.html' %}
+
+{% block body %}
+
+<form method="post" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">LogIn</button>
+</form>
+
+{% endblock body %}

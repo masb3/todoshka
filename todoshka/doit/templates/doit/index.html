@@ -1,0 +1,14 @@
+{% extends 'doit/base.html' %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+    {% for list in lists %}
+        <li>{{ list }}</li>
+    {% endfor %}
+{% else %}
+    <a href="{% url 'accounts:login' %}">Login</a>
+    <a href="{% url 'accounts:signup' %}">Signup</a>
+{% endif %}
+
+{% endblock content %}

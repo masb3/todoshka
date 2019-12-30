@@ -1,16 +1,10 @@
 from django.shortcuts import render, HttpResponse
 
-from .models import Lists, Tasks
+from .models import List, Task
 
 
 def index(request):
-    lists = Lists.objects.all()
-    lists_names = list()
+    lists = List.objects.all()
 
-    for l in lists:
-        lists_names.append(l.list_name)
-
-    response_html = '<br>'.join(lists_names)
-
-    return HttpResponse(response_html)
+    return render(request, 'doit/index.html', {'lists': lists, })  # 'user': request.user
 
