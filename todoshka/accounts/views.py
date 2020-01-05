@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth.forms import PasswordChangeForm
 
 from .forms import SignUpForm, LogInForm
 
@@ -34,3 +35,16 @@ def login(request):
     else:
         form = LogInForm()
     return render(request, 'accounts/login.html', {'form': form})
+
+
+def changepwd(request):
+    user = request.user
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=user, data=request.POST)
+        if form.is_valid():
+            user = form.save()
+            auth_login(request, user)
+            return redirect('doit:index')
+    else:
+        form = PasswordChangeForm(user)
+    return render(request, 'accounts/changepwd.html', {'form': form})

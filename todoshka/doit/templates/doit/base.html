@@ -9,7 +9,7 @@
     {% if user.is_authenticated %}
     <h2>User is authenticated: {{ user.username }}</h2>
     <a href="#">My account</a>
-    <a href="#">Change password</a>
+    <a href="{% url 'accounts:changepwd' %}">Change password</a>
     <a href="{% url 'accounts:logout' %}">Logout</a>
     <br>
     <br>
