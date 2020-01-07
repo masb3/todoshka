@@ -2,13 +2,18 @@
 
 {% block content %}
 
+<div class="container center">
+    <ol class="breadcrumb my-4">
 {% if user.is_authenticated %}
     {% for list in lists %}
-        <li>{{ list }}</li>
+        <li class="breadcrumb-item">{{ list }}</li>
     {% endfor %}
 {% else %}
-    <a href="{% url 'accounts:login' %}">Login</a>
-    <a href="{% url 'accounts:signup' %}">Signup</a>
+
+        <li class="breadcrumb-item"><a href="{% url 'accounts:login' %}">Login</a></li>
+        <li class="breadcrumb-item active"><a href="{% url 'accounts:signup' %}">Signup</a></li>
 {% endif %}
+    </ol>
+</div>
 
 {% endblock content %}

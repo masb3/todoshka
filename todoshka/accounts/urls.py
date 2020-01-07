@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, reverse_lazy
 from django.contrib.auth.views import LogoutView, LoginView, PasswordChangeView
 
 from . import views
@@ -16,5 +16,6 @@ urlpatterns = [
     #path('login/', LoginView.as_view(template_name='accounts/login.html'), name='login'),
 
     #path('changepwd/', views.changepwd, name='changepwd'),
-    path('changepwd/', PasswordChangeView.as_view(template_name='accounts/changepwd.html'), name='changepwd'),
+    path('changepwd/', PasswordChangeView.as_view(template_name='accounts/changepwd.html',
+                                                  success_url=reverse_lazy('doit:index')), name='changepwd'),
 ]
