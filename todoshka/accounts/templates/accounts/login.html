@@ -6,6 +6,7 @@
     <div class="row text-black">
         <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4">
             <div class="px-2">
+                {% if not user.is_authenticated %}
                 <form method="post" novalidate class="justify-content-center">
                     {% if form.non_field_errors %}
                       <div class="alert alert-danger" role="alert">
@@ -46,6 +47,10 @@
                       {% endfor %}
                     <button type="submit" class="btn btn-primary btn-lg">LogIn</button>
                 </form>
+                {% else %}
+                <h1>You are already logged in as @ {{ user.username }}</h1>
+                <a class="btn btn-primary" href="{% url 'accounts:logout' %}" role="button">Logout</a>
+                {% endif %}
             </div>
         </div>
     </div>

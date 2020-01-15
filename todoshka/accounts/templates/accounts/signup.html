@@ -1,14 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>SignUp</title>
-</head>
-<body>
-<form method="post" novalidate>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Create an account</button>
-</form>
-</body>
-</html>
+{% extends 'doit/base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="container">
+    <div class="row text-black">
+        <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4">
+            <div class="px-2">
+                {% if not user.is_authenticated %}
+                <form method="post" novalidate class="justify-content-center">
+                    {% if form.non_field_errors %}
+                      <div class="alert alert-danger" role="alert">
+                        {% for error in form.non_field_errors %}
+                          <p{% if forloop.last %} class="mb-0"{% endif %}>{{ error }}</p>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="form-group">
+                        {{ field.label_tag }}
+
+                          {% if form.is_bound %}
+                            {% if field.errors %}
+
+                              {% render_field field class="form-control is-invalid" %}
+                              {% for error in field.errors %}
+                                <div class="invalid-feedback">
+                                  {{ error }}
+                                </div>
+                              {% endfor %}
+
+                            {% else %}
+                              {% render_field field class="form-control is-valid" %}
+                            {% endif %}
+                          {% else %}
+                            {% render_field field class="form-control" %}
+                          {% endif %}
+
+                          {% if field.help_text %}
+                            <small class="form-text text-muted">
+                              {{ field.help_text }}
+                            </small>
+                          {% endif %}
+                        </div>
+                      {% endfor %}
+                    <button type="submit" class="btn btn-primary btn-lg">LogIn</button>
+                </form>
+                {% else %}
+                <h1>You are already logged in as @ {{ user.username }}</h1>
+                <a class="btn btn-primary" href="{% url 'accounts:logout' %}" role="button">Logout</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
