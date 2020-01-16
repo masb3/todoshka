@@ -8,44 +8,9 @@
             <div class="px-2">
                 {% if not user.is_authenticated %}
                 <form method="post" novalidate class="justify-content-center">
-                    {% if form.non_field_errors %}
-                      <div class="alert alert-danger" role="alert">
-                        {% for error in form.non_field_errors %}
-                          <p{% if forloop.last %} class="mb-0"{% endif %}>{{ error }}</p>
-                        {% endfor %}
-                      </div>
-                    {% endif %}
-
                     {% csrf_token %}
-                    {% for field in form %}
-                    <div class="form-group">
-                        {{ field.label_tag }}
-
-                          {% if form.is_bound %}
-                            {% if field.errors %}
-
-                              {% render_field field class="form-control is-invalid" %}
-                              {% for error in field.errors %}
-                                <div class="invalid-feedback">
-                                  {{ error }}
-                                </div>
-                              {% endfor %}
-
-                            {% else %}
-                              {% render_field field class="form-control is-valid" %}
-                            {% endif %}
-                          {% else %}
-                            {% render_field field class="form-control" %}
-                          {% endif %}
-
-                          {% if field.help_text %}
-                            <small class="form-text text-muted">
-                              {{ field.help_text }}
-                            </small>
-                          {% endif %}
-                        </div>
-                      {% endfor %}
-                    <button type="submit" class="btn btn-primary btn-lg">LogIn</button>
+                    {% include 'accounts/includes/form.html' %}
+                    <button type="submit" class="btn btn-primary btn-lg">SignUp</button>
                 </form>
                 {% else %}
                 <h1>You are already logged in as @ {{ user.username }}</h1>
