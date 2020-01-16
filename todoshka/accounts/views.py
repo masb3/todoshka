@@ -39,13 +39,16 @@ def login(request):
 
 def changepwd(request):
     user = request.user
-    if request.method == 'POST':
-        form = PasswordChangeForm(user=user, data=request.POST)
-        if form.is_valid():
-            user = form.save()
-            #auth_login(request, user)
-            update_session_auth_hash(request, user)
-            return redirect('doit:index')
+    if user.is_authenticated:
+        if request.method == 'POST':
+            form = PasswordChangeForm(user=user, data=request.POST)
+            if form.is_valid():
+                user = form.save()
+                #auth_login(request, user)
+                update_session_auth_hash(request, user)
+                return redirect('doit:index')
+        else:
+            form = PasswordChangeForm(user)
     else:
-        form = PasswordChangeForm(user)
+        return redirect('accounts:login')
     return render(request, 'accounts/changepwd.html', {'form': form})

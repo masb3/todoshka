@@ -1,11 +1,24 @@
 {% extends 'doit/base.html' %}
+{% load widget_tweaks %}
 
-{% block body %}
+{% block content %}
+<div class="container">
+    <div class="row text-black">
+        <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto form p-4">
+            <div class="px-2">
+                {% if user.is_authenticated %}
+                <form method="post" novalidate class="justify-content-center">
+                    {% csrf_token %}
+                    {% include 'accounts/includes/form.html' %}
+                    <button type="submit" class="btn btn-primary">Change password</button>
+                </form>
+                {% else %}
+                <h1>You are not logged in.</h1>
+                <a class="btn btn-primary" href="{% url 'accounts:login' %}" role="button">Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
 
-<form method="post" novalidate>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Change password</button>
-</form>
-
-{% endblock body %}
+{% endblock content %}
