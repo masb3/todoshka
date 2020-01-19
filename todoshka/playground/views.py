@@ -2,4 +2,4 @@ from django.shortcuts import render, HttpResponse
 
 
 def index(request):
-    return HttpResponse("playground index")
+    return render(request, 'playground/playground.html')
