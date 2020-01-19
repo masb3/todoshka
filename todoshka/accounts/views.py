@@ -19,7 +19,10 @@ def signup(request):
 
 def logout(request):
     auth_logout(request)
-    return redirect('doit:index')
+    if request.GET.get('next'):
+        return redirect(request.GET.get('next'))
+    else:
+        return redirect('doit:index')
 
 
 def login(request):

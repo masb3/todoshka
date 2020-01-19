@@ -7,4 +7,3 @@ def index(request):
     lists = List.objects.all()
 
     return render(request, 'doit/index.html', {'lists': lists, })  # 'user': request.user
-

@@ -20,4 +20,5 @@ urlpatterns = [
     path('', include('doit.urls')),
     path('accounts/', include('accounts.urls')),
     path('admin/', admin.site.urls),
+    path('playground/', include('playground.urls')),
 ]
