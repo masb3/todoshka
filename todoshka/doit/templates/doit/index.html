@@ -2,14 +2,22 @@
 
 {% block content %}
 
+{% if user.is_authenticated %}
+<div class="container">
+    {% for list in lists %}
+  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{ list }}</h5>
+      <small>3 days ago</small>
+    </div>
+    <p class="mb-1">Task text</p>
+    <small>Donec id elit non mi porta.</small>
+  </a>
+    {% endfor %}
+</div>
+{% else %}
 <div class="container center">
     <ol class="breadcrumb my-4">
-{% if user.is_authenticated %}
-    {% for list in lists %}
-        <li class="breadcrumb-item">{{ list }}</li>
-    {% endfor %}
-{% else %}
-
         <li class="breadcrumb-item"><a href="{% url 'accounts:login' %}">Login</a></li>
         <li class="breadcrumb-item active"><a href="{% url 'accounts:signup' %}">Signup</a></li>
 {% endif %}
