@@ -3,8 +3,9 @@
 
 {% block content %}
 
-{% if user.is_authenticated %}
+{% if user.is_authenticated %}<!-- test if user is auth !-->
 <div class="container">
+{% if lists %} <!-- test if lists is not empty !-->
     {% for list in lists %}
   <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
     <div class="d-flex w-100 justify-content-between">
@@ -17,17 +18,26 @@
           {% endif %}
       </small>
     </div>
-    <p class="mb-1">Task text</p>
+      {% for task in list.to_list.all %}
+    <p class="mb-1">{{ task.task_name }}</p>
+      {% endfor %}
     <small>Donec id elit non mi porta.</small>
   </a>
     {% endfor %}
+ {% else %} <!-- lists is empty !-->
+    <div class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">no lists</h5>
+    </div>
+    </div>
+{% endif %}<!-- end of test if lists is not empty !-->
 </div>
-{% else %}
+{% else %}<!-- user is not auth !-->
 <div class="container center">
     <ol class="breadcrumb my-4">
         <li class="breadcrumb-item"><a href="{% url 'accounts:login' %}">Login</a></li>
         <li class="breadcrumb-item active"><a href="{% url 'accounts:signup' %}">Signup</a></li>
-{% endif %}
+{% endif %}<!-- end of test if user is auth !-->
     </ol>
 </div>
 

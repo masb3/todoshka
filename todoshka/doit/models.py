@@ -17,3 +17,6 @@ class Task(models.Model):
     end_date = models.DateTimeField(null=True)
     is_done = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.task_name
+
