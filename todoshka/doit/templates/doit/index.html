@@ -1,4 +1,5 @@
 {% extends 'doit/base.html' %}
+{% load doit_tags %}
 
 {% block content %}
 
@@ -8,7 +9,13 @@
   <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1">{{ list }}</h5>
-      <small>3 days ago</small>
+        {% time_diff list.pub_date as days_ago %}
+      <small>
+          {% if 0 == days_ago %} today
+          {% else %}
+            {{ days_ago }} {% if 1 == days_ago %} day {% else %} days {% endif %} ago
+          {% endif %}
+      </small>
     </div>
     <p class="mb-1">Task text</p>
     <small>Donec id elit non mi porta.</small>
