@@ -6,8 +6,8 @@
 {% if user.is_authenticated %}<!-- test if user is auth !-->
 <div class="container">
 {% if lists %} <!-- test if lists is not empty !-->
-    {% for list in lists %}
-  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+    {% for list in lists %} <!-- loop lists !-->
+  <div class="list-group-item list-group-item-action flex-column align-items-start">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1">{{ list }}</h5>
         {% time_diff list.pub_date as days_ago %}
@@ -18,12 +18,14 @@
           {% endif %}
       </small>
     </div>
-      {% for task in list.to_list.all %}
+      {% for task in list.to_list.all %} <!-- loop tasks !-->
+      <a href="#" class="text-body">  <!-- link to task !-->
     <p class="mb-1">{{ task.task_name }}</p>
-      {% endfor %}
+     </a>  <!-- end link to task !-->
+      {% endfor %} <!-- end loop tasks !-->
     <small>Donec id elit non mi porta.</small>
-  </a>
-    {% endfor %}
+  </div>
+    {% endfor %} <!-- end loop lists !-->
  {% else %} <!-- lists is empty !-->
     <div class="list-group-item list-group-item-action flex-column align-items-start">
     <div class="d-flex w-100 justify-content-between">
