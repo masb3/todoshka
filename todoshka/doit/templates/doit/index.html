@@ -19,8 +19,15 @@
       </small>
     </div>
       {% for task in list.to_list.all %} <!-- loop tasks !-->
+      {% time_diff task.pub_date as days_ago %}
+      <small>
+          {% if 0 == days_ago %} today
+          {% else %}
+            {{ days_ago }} {% if 1 == days_ago %} day {% else %} days {% endif %} ago
+          {% endif %}
+      </small>
       <a href="#" class="text-body">  <!-- link to task !-->
-    <p class="mb-1">{{ task.task_name }}</p>
+      <p class="mb-2 text-break">{{ task.task_name }}</p>
      </a>  <!-- end link to task !-->
       {% endfor %} <!-- end loop tasks !-->
     <small>Donec id elit non mi porta.</small>
