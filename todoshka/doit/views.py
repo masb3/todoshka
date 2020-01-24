@@ -1,8 +1,10 @@
 from django.shortcuts import render, HttpResponse
+from django.contrib.auth.decorators import login_required
 
 from .models import List, Task
 
 
+#@login_required
 def index(request):
     lists = []
     if request.user.is_authenticated:

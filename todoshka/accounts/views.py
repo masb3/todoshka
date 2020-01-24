@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
-from .forms import SignUpForm, LogInForm
+from .forms import SignUpForm, LogInForm, ImageUploadForm
+from .models import UserProfile
 
 
 def signup(request):
@@ -55,3 +58,17 @@ def changepwd(request):
     else:
         return redirect('accounts:login')
     return render(request, 'accounts/changepwd.html', {'form': form})
+
+
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        form = ImageUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            u = request.user.userprofile
+            u.image = form.cleaned_data['image']
+            u.save()
+            return HttpResponse('image upload success')
+    else:
+        form = ImageUploadForm()
+    return render(request, 'accounts/profile.html', {'form': form})

@@ -13,3 +13,8 @@ class SignUpForm(UserCreationForm):
 
 class LogInForm(AuthenticationForm):
     pass
+
+
+class ImageUploadForm(forms.Form):
+    """Image upload form."""
+    image = forms.ImageField()
