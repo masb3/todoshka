@@ -14,6 +14,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
+            #UserProfile.objects.create(user=user) # replaced with signals
             return redirect('doit:index')
     else:
         form = SignUpForm()
