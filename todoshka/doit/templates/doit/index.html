@@ -5,6 +5,15 @@
 {% block content %}
 
 {% if user.is_authenticated %}<!-- test if user is auth !-->
+<!-- links to new list/task !-->
+<div class="container center">
+    <ol class="breadcrumb my-4">
+        <li class="breadcrumb-item"><a href="{% url 'doit:newlist' %}">New List</a></li>  <!-- link to new list !-->
+        <li class="breadcrumb-item active"><a href="#">New Task</a></li>  <!-- link to new task !-->
+    </ol>
+</div>
+
+<!-- display lists/tasks !-->
 <div class="container">
 {% if lists %} <!-- test if lists is not empty !-->
     {% for list in lists %} <!-- loop lists !-->
