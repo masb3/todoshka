@@ -9,7 +9,7 @@
                 {% if not user.is_authenticated %}
                 <form method="post" novalidate class="justify-content-center">
                     {% csrf_token %}
-                    {% include 'accounts/includes/form.html' %}
+                    {% include 'doit/includes/form.html' %}
                     <button type="submit" class="btn btn-primary btn-lg">SignUp</button>
                 </form>
                 {% else %}
