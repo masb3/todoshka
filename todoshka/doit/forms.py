@@ -25,4 +25,3 @@ class TaskForm(forms.ModelForm):
         model = Task
         fields = ('list_name', 'task_name',)
     list_name = forms.ChoiceField()
-

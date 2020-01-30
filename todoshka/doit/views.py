@@ -5,7 +5,6 @@ from .models import List, Task
 from .forms import ListForm, TaskForm
 
 
-#@login_required
 def index(request):
     lists = []
     if request.user.is_authenticated:
@@ -35,14 +34,13 @@ def new_task(request):
         tasks = Task.objects.select_related().filter(to_list=_list)
 
     if request.method == 'POST':
-        form = TaskForm(data=request.POST)
+        form = TaskForm(data=request.POST, lists=lists)
         if form.is_valid():
+            related_list = List.objects.get(id=request.POST['list_name'])
             newtask = form.save(commit=False)
-            newtask.user = request.user  # The logged-in user
+            newtask.to_list = related_list
             newtask.save()
             return redirect('doit:index')
-        form = TaskForm(lists=lists)
-
     else:
         form = TaskForm(lists=lists)
     return render(request, 'doit/add_list_task.html', {'form': form})
