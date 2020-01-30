@@ -14,6 +14,15 @@ def index(request):
 
 
 @login_required
+def list(request, list_id):
+    try:
+        _list = List.objects.select_related().filter(user=request.user).get(id=list_id)
+    except List.DoesNotExist:
+        _list = None
+    return render(request, 'doit/list.html', {'list': _list})
+
+
+@login_required
 def task(request, task_id):
     lists = List.objects.select_related().filter(user=request.user)
     is_task_id_valid = False

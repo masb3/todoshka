@@ -1,0 +1,35 @@
+{% extends 'doit/base.html' %}
+{% load doit_tags %}
+{% load humanize %}
+
+{% block content %}
+
+{% if list %} <!-- test if lists is not empty !-->
+<div class="container">
+  <div class="list-group-item list-group-item-action flex-column align-items-start">
+      <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{ list }}</h5>
+      <small>{{ list.pub_date|naturaltime }}</small>
+    </div>
+
+      {% for task in list.to_list.all %} <!-- loop tasks !-->
+      <small>{{ task.pub_date|naturaltime }}</small>
+      <a href="{% url 'doit:task' task.id %}" class="text-body">  <!-- link to task !-->
+      <p class="mb-2 text-break">{{ task }}</p>
+     </a>  <!-- end link to task !-->
+      {% endfor %} <!-- end loop tasks !-->
+    <small>UPDATE</small>
+  </div>
+</div>
+
+{% else %} <!-- invalid list id !-->
+<div class="container">
+  <div class="list-group-item list-group-item-action flex-column align-items-start">
+      <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">invalid list</h5> <!-- display list name !-->
+      </div>
+  </div>
+</div>
+{% endif %} <!-- end of test if list id is valid !-->
+
+{% endblock content %}
