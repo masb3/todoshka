@@ -36,12 +36,48 @@
 
   </div>
     {% endfor %} <!-- end loop lists !-->
+
+    {% if lists.has_other_pages %} <!-- start of paginator !-->
+    <nav aria-label="List page navigation">
+      <ul class="pagination justify-content-center">
+        {% if lists.has_previous %}
+          <li class="page-item">
+              <a class="page-link" href="?page={{ lists.previous_page_number }}">&laquo;</a><!-- Previous !-->
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">&laquo;</a><!-- Previous !-->
+          </li>
+        {% endif %}
+        {% for i in lists.paginator.page_range %}
+          {% if lists.number == i %}
+            <li class="page-item active">
+                <a class="page-link" href="#">{{ i }} <span class="sr-only">(current)</span></a>
+            </li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if lists.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ lists.next_page_number }}">&raquo;</a><!-- Next !-->
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">&raquo;</a><!-- Next !-->
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% endif %} <!-- end of paginator !-->
+
  {% else %} <!-- lists is empty !-->
     <div class="list-group-item list-group-item-action flex-column align-items-start">
     <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1">no lists</h5>
     </div>
     </div>
+
 {% endif %}<!-- end of test if lists is not empty !-->
 </div>
 {% else %}<!-- user is not auth !-->
@@ -52,5 +88,4 @@
 {% endif %}<!-- end of test if user is auth !-->
     </ol>
 </div>
-
 {% endblock content %}

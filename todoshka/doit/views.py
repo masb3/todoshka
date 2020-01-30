@@ -1,16 +1,25 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import List, Task
 from .forms import ListForm, TaskForm
 
 
 def index(request):
-    lists = []
+    lists = None
     if request.user.is_authenticated:
-        lists = List.objects.filter(user=request.user)
+        list_of_lists = List.objects.filter(user=request.user).order_by('-pub_date')
+        page = request.GET.get('page', 1)
+        paginator = Paginator(list_of_lists, 3)
+        try:
+            lists = paginator.page(page)
+        except PageNotAnInteger:
+            lists = paginator.page(1)
+        except EmptyPage:
+            lists = paginator.page(paginator.num_pages)
 
-    return render(request, 'doit/index.html', {'lists': lists, })  # 'user': request.user
+    return render(request, 'doit/index.html', {'lists': lists, })
 
 
 @login_required
