@@ -14,6 +14,27 @@ def index(request):
 
 
 @login_required
+def task(request, task_id):
+    lists = List.objects.select_related().filter(user=request.user)
+    is_task_id_valid = False
+    for _list in lists:
+        tasks = Task.objects.select_related().filter(to_list=_list)
+        for task in tasks:
+            if task.id == task_id:
+                is_task_id_valid = True
+                break
+        if is_task_id_valid:
+            break
+
+    if is_task_id_valid:
+        task = Task.objects.get(id=task_id)
+    else:
+        task = None
+
+    return render(request, 'doit/task.html', {'task': task})
+
+
+@login_required
 def new_list(request):
     if request.method == 'POST':
         form = ListForm(data=request.POST)

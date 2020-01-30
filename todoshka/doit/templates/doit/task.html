@@ -1,0 +1,31 @@
+{% extends 'doit/base.html' %}
+{% load doit_tags %}
+{% load humanize %}
+
+{% block content %}
+
+{% if task %} <!-- test if task id is valid !-->
+<div class="container">
+  <div class="list-group-item list-group-item-action flex-column align-items-start">
+      <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{ task.to_list.list_name }}</h5> <!-- display list name !-->
+      <small>{{ task.to_list.pub_date|naturaltime }}</small> <!-- display list pub date !-->
+    </div>
+      <small>{{ task.pub_date|naturaltime }}</small> <!-- display task pub date !-->
+      <p class="mb-2 text-break">{{ task }}</p> <!-- display task name !-->
+    <small>UPDATE</small>
+  </div>
+</div>
+
+{% else %} <!-- invalid task id !-->
+<div class="container">
+  <div class="list-group-item list-group-item-action flex-column align-items-start">
+      <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">invalid task</h5> <!-- display list name !-->
+      </div>
+  </div>
+</div>
+{% endif %} <!-- end of test if task id is valid !-->
+
+
+{% endblock content %}

@@ -26,7 +26,7 @@
 
       {% for task in list.to_list.all %} <!-- loop tasks !-->
       <small>{{ task.pub_date|naturaltime }}</small>
-      <a href="#" class="text-body">  <!-- link to task !-->
+      <a href="{% url 'doit:task' task.id %}" class="text-body">  <!-- link to task !-->
       {% text_truncator task.task_name 30 as task_truncated %}
       <p class="mb-2 text-break">{{ task_truncated }}</p>
      </a>  <!-- end link to task !-->
