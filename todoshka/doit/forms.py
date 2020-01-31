@@ -9,6 +9,16 @@ class ListForm(forms.ModelForm):
         fields = ('list_name',)
 
 
+class ListUpdateForm(forms.ModelForm):
+    def __init__(self, list_name, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['list_name'].initial = list_name
+
+    class Meta:
+        model = List
+        fields = ('list_name',)
+
+
 class TaskForm(forms.ModelForm):
     def __init__(self, lists=None, *args, **kwargs):
         super().__init__(*args, **kwargs)

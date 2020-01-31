@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import List, Task
-from .forms import ListForm, TaskForm
+from .forms import ListForm, TaskForm, ListUpdateForm
 
 
 def index(request):
@@ -29,6 +29,26 @@ def list(request, list_id):
     except List.DoesNotExist:
         _list = None
     return render(request, 'doit/list.html', {'list': _list})
+
+
+@login_required
+def list_update(request, list_id):
+    try:
+        _list = List.objects.select_related().filter(user=request.user).get(id=list_id)
+
+        if request.method == 'POST':
+            form = ListUpdateForm(data=request.POST, list_name=_list.list_name)
+            if form.is_valid():
+                _list.list_name = request.POST['list_name']
+                _list.save(update_fields=["list_name"])
+                return redirect('doit:index')
+        else:
+            form = ListUpdateForm(list_name=_list.list_name)
+
+    except List.DoesNotExist:
+        form = None
+
+    return render(request, 'doit/list_update.html', {'form': form})
 
 
 @login_required
