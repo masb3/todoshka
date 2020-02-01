@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import List, Task
-from .forms import ListForm, TaskForm, ListUpdateForm
+from .forms import ListForm, TaskForm, ListUpdateForm,TaskUpdateForm
 
 
 def index(request):
@@ -83,21 +83,6 @@ def task(request, task_id):
 
 
 @login_required
-def task_update(request, task_id):
-    task = get_task_util(request, task_id)
-
-    if task:
-        if request.method == 'POST':
-            if 'true' == request.POST.get('delete'):
-                task.delete()
-                return redirect('doit:index')
-        else:
-            pass
-
-    return render(request, 'doit/list_task_update_delete.html', {'task': task})
-
-
-@login_required
 def new_list(request):
     if request.method == 'POST':
         form = ListForm(data=request.POST)
@@ -128,3 +113,28 @@ def new_task(request):
     else:
         form = TaskForm(lists=lists)
     return render(request, 'doit/add_list_task.html', {'form': form})
+
+
+@login_required
+def task_update(request, task_id):
+    task = get_task_util(request, task_id)
+
+    if request.method == 'POST':
+        if 'true' == request.POST.get('delete'):
+            task.delete()
+            return redirect('doit:index')
+        else:
+            lists = List.objects.select_related().filter(user=request.user)
+            form = TaskUpdateForm(data=request.POST, task=task, lists=lists)
+            if form.is_valid():
+                related_list = List.objects.get(id=request.POST['list_name'])
+                task.to_list = related_list
+                task.task_name = request.POST['task_name']
+                task.save(update_fields=["to_list", "task_name"])
+                return redirect('doit:index')
+
+    else:
+        lists = List.objects.select_related().filter(user=request.user)
+        form = TaskUpdateForm(task=task, lists=lists)
+
+    return render(request, 'doit/list_task_update_delete.html', {'form': form})

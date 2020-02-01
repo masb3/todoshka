@@ -24,10 +24,29 @@ class TaskForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if lists:
             self.CHOICES = []
-            for list in lists:
-                self.CHOICES.append((list.id, list.list_name))
+            for _list in lists:
+                self.CHOICES.append((_list.id, _list.list_name))
             self.list_name = forms.ChoiceField(choices=self.CHOICES)
             self.fields['list_name'] = self.list_name
+        else:
+            self.fields.pop('list_name')
+
+    class Meta:
+        model = Task
+        fields = ('list_name', 'task_name',)
+    list_name = forms.ChoiceField()
+
+
+class TaskUpdateForm(forms.ModelForm):
+    def __init__(self, lists, task, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if lists:
+            self.CHOICES = []
+            for _list in lists:
+                self.CHOICES.append((_list.id, _list.list_name))
+            self.list_name = forms.ChoiceField(choices=self.CHOICES)
+            self.fields['list_name'] = self.list_name
+            self.fields['task_name'].initial = task.task_name
         else:
             self.fields.pop('list_name')
 
