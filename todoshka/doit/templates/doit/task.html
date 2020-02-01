@@ -12,7 +12,9 @@
       <small>{{ task.to_list.pub_date|naturaltime }}</small> <!-- display list pub date !-->
     </div>
       <small>{{ task.pub_date|naturaltime }}</small> <!-- display task pub date !-->
+      <a href="{% url 'doit:task_update' task.id %}" class="text-body">  <!-- link to task update !-->
       <p class="mb-2 text-break">{{ task }}</p> <!-- display task name !-->
+      </a>
     <small>UPDATE</small>
   </div>
 </div>

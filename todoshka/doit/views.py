@@ -37,22 +37,25 @@ def list_update(request, list_id):
         _list = List.objects.select_related().filter(user=request.user).get(id=list_id)
 
         if request.method == 'POST':
-            form = ListUpdateForm(data=request.POST, list_name=_list.list_name)
-            if form.is_valid():
-                _list.list_name = request.POST['list_name']
-                _list.save(update_fields=["list_name"])
+            if 'true' == request.POST.get('delete'):
+                _list.delete()
                 return redirect('doit:index')
+            else:  # update
+                form = ListUpdateForm(data=request.POST, list_name=_list.list_name)
+                if form.is_valid():
+                    _list.list_name = request.POST['list_name']
+                    _list.save(update_fields=["list_name"])
+                    return redirect('doit:index')
         else:
             form = ListUpdateForm(list_name=_list.list_name)
 
     except List.DoesNotExist:
         form = None
 
-    return render(request, 'doit/list_update.html', {'form': form})
+    return render(request, 'doit/list_task_update_delete.html', {'form': form})
 
 
-@login_required
-def task(request, task_id):
+def get_task_util(request, task_id):
     lists = List.objects.select_related().filter(user=request.user)
     is_task_id_valid = False
     for _list in lists:
@@ -69,7 +72,29 @@ def task(request, task_id):
     else:
         task = None
 
+    return task
+
+
+@login_required
+def task(request, task_id):
+    task = get_task_util(request, task_id)
+
     return render(request, 'doit/task.html', {'task': task})
+
+
+@login_required
+def task_update(request, task_id):
+    task = get_task_util(request, task_id)
+
+    if task:
+        if request.method == 'POST':
+            if 'true' == request.POST.get('delete'):
+                task.delete()
+                return redirect('doit:index')
+        else:
+            pass
+
+    return render(request, 'doit/list_task_update_delete.html', {'task': task})
 
 
 @login_required
