@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import List, Task
-from .forms import ListForm, TaskForm, ListUpdateForm,TaskUpdateForm
+from .forms import ListForm, TaskForm, ListUpdateForm, TaskUpdateForm
 
 
 def index(request):
