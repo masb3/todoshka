@@ -21,13 +21,14 @@ class List(models.Model):
     unique_view_id = models.CharField(unique=True, max_length=UNIQUE_ID_LEN)
 
     def save(self, *args, **kwargs):
-        unique_id = get_rand_id()
-        is_exists = List.objects.filter(unique_view_id=unique_id).exists()
-        while is_exists:
-            print('is_unique {}, {}'.format(is_exists, unique_id))
+        if not self.unique_view_id:  # new object creating
             unique_id = get_rand_id()
             is_exists = List.objects.filter(unique_view_id=unique_id).exists()
-        self.unique_view_id = unique_id
+            while is_exists:
+                print('is_unique {}, {}'.format(is_exists, unique_id))
+                unique_id = get_rand_id()
+                is_exists = List.objects.filter(unique_view_id=unique_id).exists()
+            self.unique_view_id = unique_id
         super(List, self).save()
 
     def __str__(self):
@@ -43,12 +44,13 @@ class Task(models.Model):
     unique_view_id = models.CharField(unique=True, max_length=UNIQUE_ID_LEN)
 
     def save(self, *args, **kwargs):
-        unique_id = get_rand_id()
-        is_exists = Task.objects.filter(unique_view_id=unique_id).exists()
-        while is_exists:
+        if not self.unique_view_id:  # new object creating
             unique_id = get_rand_id()
             is_exists = Task.objects.filter(unique_view_id=unique_id).exists()
-        self.unique_view_id = unique_id
+            while is_exists:
+                unique_id = get_rand_id()
+                is_exists = Task.objects.filter(unique_view_id=unique_id).exists()
+            self.unique_view_id = unique_id
         super(Task, self).save()
 
     def __str__(self):
