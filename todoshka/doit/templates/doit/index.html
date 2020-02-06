@@ -19,7 +19,7 @@
     {% for list in lists %} <!-- loop lists !-->
   <div class="list-group-item list-group-item-action flex-column align-items-start">
       <div class="d-flex w-100 justify-content-between">
-      <a href="{% url 'doit:list' list.id %}" class="text-body">  <!-- link to list !-->
+      <a href="{% url 'doit:list' list.unique_view_id %}" class="text-body">  <!-- link to list !-->
       <h5 class="mb-1">{{ list }}</h5>
       </a>  <!-- end link to list !-->
       <small>{{ list.pub_date|naturaltime }}</small>
@@ -27,7 +27,7 @@
 
       {% for task in list.to_list.all %} <!-- loop tasks !-->
       <small>{{ task.pub_date|naturaltime }}</small>
-      <a href="{% url 'doit:task' task.id %}" class="text-body">  <!-- link to task !-->
+      <a href="{% url 'doit:task' task.unique_view_id %}" class="text-body">  <!-- link to task !-->
       {% text_truncator task.task_name 30 as task_truncated %}
       <p class="mb-2 text-break">{{ task_truncated }}</p>
      </a>  <!-- end link to task !-->
