@@ -18,7 +18,7 @@ class List(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     list_name = models.CharField(max_length=500)
     pub_date = models.DateTimeField(auto_now_add=True)
-    unique_view_id = models.CharField(unique=True, max_length=UNIQUE_ID_LEN)
+    unique_view_id = models.SlugField(unique=True, max_length=UNIQUE_ID_LEN)
 
     def save(self, *args, **kwargs):
         if not self.unique_view_id:  # new object creating
@@ -41,7 +41,7 @@ class Task(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField(null=True, blank=True)
     is_done = models.BooleanField(default=False)
-    unique_view_id = models.CharField(unique=True, max_length=UNIQUE_ID_LEN)
+    unique_view_id = models.SlugField(unique=True, max_length=UNIQUE_ID_LEN)
 
     def save(self, *args, **kwargs):
         if not self.unique_view_id:  # new object creating
