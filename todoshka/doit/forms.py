@@ -42,7 +42,10 @@ class TaskUpdateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if lists:
             self.CHOICES = []
-            for _list in lists:
+            for _list in lists.order_by('-pub_date'):
+                if task.to_list == _list:  # put on first place already related list name
+                    self.CHOICES.insert(0, (_list.id, _list.list_name))
+                    continue
                 self.CHOICES.append((_list.id, _list.list_name))
             self.list_name = forms.ChoiceField(choices=self.CHOICES)
             self.fields['list_name'] = self.list_name
