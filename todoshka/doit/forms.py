@@ -24,7 +24,7 @@ class TaskForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if lists:
             self.CHOICES = []
-            for _list in lists:
+            for _list in lists.order_by('-pub_date'):
                 self.CHOICES.append((_list.id, _list.list_name))
             self.list_name = forms.ChoiceField(choices=self.CHOICES)
             self.fields['list_name'] = self.list_name
