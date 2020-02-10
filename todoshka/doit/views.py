@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -130,7 +132,10 @@ def task_update(request, task_id):
                 related_list = List.objects.get(id=request.POST['list_name'])
                 task.to_list = related_list
                 task.task_name = request.POST['task_name']
-                task.save(update_fields=["to_list", "task_name"])
+                task.end_date = datetime.datetime(day=int(request.POST['end_date_day']),
+                                                  month=int(request.POST['end_date_month']),
+                                                  year=int(request.POST['end_date_year']))
+                task.save(update_fields=["to_list", "task_name", "end_date"])
                 return redirect('doit:index')
 
     else:
