@@ -36,6 +36,7 @@ class List(models.Model):
 
 
 class Task(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     to_list = models.ForeignKey(List, related_name='to_list', on_delete=models.CASCADE)
     task_name = models.CharField(max_length=5000)
     pub_date = models.DateTimeField(auto_now_add=True)
