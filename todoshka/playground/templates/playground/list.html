@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List of lists</title>
+</head>
+<body>
+
+<h5>Lists</h5>
+<ul>
+    {% for list in list_of_lists %}
+        <li>{{ list.list_name }}</li>
+        {% for task in list.to_list.all %}
+            <ol>- {{ task }}</ol>
+        {% endfor %}
+    {% endfor %}
+</ul>
+
+<h5>Tasks</h5>
+<ul>
+    {% for task in tasks %}
+        <li>{{ task.task_name }}</li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
