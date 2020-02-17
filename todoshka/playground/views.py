@@ -1,7 +1,11 @@
 from django.shortcuts import render, HttpResponse
+from django.urls import path, reverse_lazy
 from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic.edit import FormView
 
 from doit.models import List, Task
+
+from .forms import ListForm
 
 
 class IndexView(TemplateView):
@@ -35,9 +39,23 @@ class ListView(ListView):
 
 class ListDetailView(DetailView):
     template_name = 'playground/list_detail.html'
+    #   context_object_name = 'aaaa'
 
     # def get_queryset(self):
     #     return List.objects.select_related().filter(user=self.request.user)
 
     def get_object(self, queryset=None):
+        self.context_object_name = 'aaaa'
+        print(List.objects.get(unique_view_id=self.kwargs['unique_view_id']))
         return List.objects.get(unique_view_id=self.kwargs['unique_view_id'])
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context.pop('object')
+    #     return context
+
+
+class ListFormView(FormView):
+    template_name = 'playground/form.html'
+    form_class = ListForm
+    success_url = reverse_lazy('playground:list')
