@@ -3,16 +3,6 @@ from django.contrib import admin
 from .models import List, Task
 
 
-# def task_custom_action(modeladmin, request, queryset):
-#     for task in queryset:
-#         task.task_name = task.task_name + "__some text from custom actions"
-#         task.save()
-#     #queryset.update(task_name='p')
-
-
-#task_custom_action.short_description = "Add some static text to task_name"
-
-
 class ListAdmin(admin.ModelAdmin):
     readonly_fields = ('pub_date',)
 
